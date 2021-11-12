@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4D018A3E7936819A6C892B3D /* Pods_MoyaApiPractice_MoyaApiPracticeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898300F3D6D0BDDC9BDCF474 /* Pods_MoyaApiPractice_MoyaApiPracticeUITests.framework */; };
 		97CBC68A54D926AC2A89DEE2 /* Pods_MoyaApiPracticeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EF59BBDC50B2BE8DCCA440 /* Pods_MoyaApiPracticeTests.framework */; };
+		F05BBBE7273D1CDB0069D7AD /* WeatherLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BBBE6273D1CDB0069D7AD /* WeatherLabel.swift */; };
+		F05BBBE9273E22D30069D7AD /* ExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BBBE8273E22D30069D7AD /* ExtensionView.swift */; };
 		F07D514027321E850064247B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07D513F27321E850064247B /* AppDelegate.swift */; };
 		F07D514227321E850064247B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07D514127321E850064247B /* SceneDelegate.swift */; };
 		F07D514427321E850064247B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07D514327321E850064247B /* MainViewController.swift */; };
@@ -52,6 +54,8 @@
 		C705382EE9DFE334F142E349 /* Pods-MoyaApiPracticeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoyaApiPracticeTests.release.xcconfig"; path = "Target Support Files/Pods-MoyaApiPracticeTests/Pods-MoyaApiPracticeTests.release.xcconfig"; sourceTree = "<group>"; };
 		CC509D458AC6C17DD121441B /* Pods-MoyaApiPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoyaApiPractice.release.xcconfig"; path = "Target Support Files/Pods-MoyaApiPractice/Pods-MoyaApiPractice.release.xcconfig"; sourceTree = "<group>"; };
 		D672A9BFFC46E293DE50CD8F /* Pods-MoyaApiPractice-MoyaApiPracticeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoyaApiPractice-MoyaApiPracticeUITests.debug.xcconfig"; path = "Target Support Files/Pods-MoyaApiPractice-MoyaApiPracticeUITests/Pods-MoyaApiPractice-MoyaApiPracticeUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F05BBBE6273D1CDB0069D7AD /* WeatherLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherLabel.swift; sourceTree = "<group>"; };
+		F05BBBE8273E22D30069D7AD /* ExtensionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionView.swift; sourceTree = "<group>"; };
 		F07D513C27321E850064247B /* MoyaApiPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoyaApiPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07D513F27321E850064247B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F07D514127321E850064247B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				F07D517727326ABF0064247B /* TabBarViewController.swift */,
+				F05BBBE8273E22D30069D7AD /* ExtensionView.swift */,
 				F07D51762732676E0064247B /* ViewModel */,
 				F07D5175273267600064247B /* View */,
 				F07D517227321FA30064247B /* Model */,
@@ -201,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				F07D517D2733874E0064247B /* ForecastTableViewCell.swift */,
+				F05BBBE6273D1CDB0069D7AD /* WeatherLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -453,11 +459,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F07D514427321E850064247B /* MainViewController.swift in Sources */,
+				F05BBBE7273D1CDB0069D7AD /* WeatherLabel.swift in Sources */,
 				F07D517A27326B1F0064247B /* ForecastViewController.swift in Sources */,
 				F07D514027321E850064247B /* AppDelegate.swift in Sources */,
 				F07D517427321FC70064247B /* CurrentWeatherModel.swift in Sources */,
 				F07D517127321F920064247B /* API.swift in Sources */,
 				F07D517827326ABF0064247B /* TabBarViewController.swift in Sources */,
+				F05BBBE9273E22D30069D7AD /* ExtensionView.swift in Sources */,
 				F07D517E2733874E0064247B /* ForecastTableViewCell.swift in Sources */,
 				F07D517C273272370064247B /* ForecastModel.swift in Sources */,
 				F07D514227321E850064247B /* SceneDelegate.swift in Sources */,
@@ -634,6 +642,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoyaApiPractice/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "location accept";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "location accept";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -661,6 +672,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoyaApiPractice/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "location accept";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "location accept";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

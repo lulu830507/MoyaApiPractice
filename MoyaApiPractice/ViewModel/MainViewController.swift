@@ -7,11 +7,15 @@
 
 import UIKit
 import Moya
+import CoreLocation
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     let provider = MoyaProvider<WeatherData>()
     var currentWeather: CurrentWeather?
+    let locationManager = CLLocationManager()
+    
+    var currentLocation: CLLocation?
     
     var userInput: String = "taipei"
     var location: String = "zh_tw"
@@ -24,27 +28,40 @@ class MainViewController: UIViewController {
     }()
     
     var locationButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "location"), for: .normal)
-        button.tintColor = .clear
+        button.imageView?.setDimensions(height: 40, width: 40)
+        button.tintColor = .white
         return button
+    }()
+    
+    var searchButton: UIButton = {
+        let button = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.background.image = UIImage(systemName: "magnifyingglass")
+        config.background.imageContentMode = .scaleToFill
+        button.configuration = config
+        button.tintColor = .white
+        return button
+    }()
+    
+    var infoView: UIView = {
+       let view = UIView()
+        view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 0.3)
+        view.layer.cornerRadius = 20
+        return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getData()
-        view.backgroundColor = UIColor(red: 81/255, green: 181/255, blue: 227/255, alpha: 1)
-        view.addSubview(weatherImageView)
-        view.addSubview(locationButton)
-        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        weatherImageView.frame = CGRect(x: view.frame.width / 8, y: view.frame.height / 20, width: view.frame.width / 1.25, height: view.frame.width / 1.25)
-        
+        configUI()
     }
     
     func getData() {
@@ -84,5 +101,26 @@ class MainViewController: UIViewController {
         }
     }
     
+    func setUpLocation() {
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if locations.isEmpty, currentLocation == nil {
+            currentLocation = locations.first
+            locationManager.stopUpdatingLocation()
+        }
+    }
+    
+    func configUI() {
+        
+        view.backgroundColor = UIColor(red: 81/255, green: 181/255, blue: 227/255, alpha: 1)
+        
+        view.addSubview(locationButton)
+        locationButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,  left: view.safeAreaLayoutGuide.leftAnchor, paddingTop: 10 ,paddingLeft: 30 , width: 35, height: 35)
+    }
 }
 
