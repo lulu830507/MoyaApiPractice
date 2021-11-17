@@ -51,15 +51,10 @@ class ForecastTableViewCell: UITableViewCell {
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
         contentView.backgroundColor = .clear
-        
-        contentView.addSubview(dateLabel)
-        contentView.addSubview(weatherImageView)
-        contentView.addSubview(tempLabel)
-        //因為太擠了所以不放humidty
-        //contentView.addSubview(humidLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -71,13 +66,13 @@ class ForecastTableViewCell: UITableViewCell {
         
         let imageSize = contentView.frame.size.height - 10
         
-        dateLabel.frame = CGRect(x: 10, y: 5, width: contentView.frame.size.width / 2 - 10, height: contentView.frame.size.height)
-        
-        weatherImageView.frame = CGRect(x: 15 + dateLabel.frame.size.width, y: 3, width: imageSize, height: imageSize)
-        
-        tempLabel.frame = CGRect(x: 15 + weatherImageView.frame.maxX, y: 5, width: contentView.frame.width / 5, height: contentView.frame.size.height)
-        
-        //humidLabel.frame = CGRect(x: 10 + tempLabel.frame.maxX, y: 5, width: contentView.frame.width / 6, height: contentView.frame.size.height)
+        contentView.addSubview(dateLabel)
+        dateLabel.centerY(inView: contentView, leftAnochor: contentView.leftAnchor, paddingLeft: 10)
+
+        contentView.addSubview(weatherImageView)
+        weatherImageView.anchor(top: contentView.topAnchor, left: dateLabel.rightAnchor, paddingLeft: 10, width: imageSize, height: imageSize)
+        contentView.addSubview(tempLabel)
+        tempLabel.centerY(inView: contentView, leftAnochor: weatherImageView.rightAnchor, paddingLeft: 0)
     }
     
 }

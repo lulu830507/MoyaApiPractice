@@ -12,7 +12,7 @@ struct ForecastWeather: Codable {
     var list: [List]
     let city: City
     struct List: Codable {
-        let dt : Date
+        let dt : Int
         var main: ForecastMain
         var weather: [WeatherForecast]
         enum CodingKeys: String,CodingKey {

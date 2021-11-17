@@ -14,7 +14,8 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
     let provider = MoyaProvider<WeatherData>()
     var forecast: ForecastWeather?
     
-    var userInput: String = "taipei"
+    //notification practice
+    var userInput: String?
     var location: String = "zh_tw"
     
     private var forecastTableView: UITableView = {
@@ -36,6 +37,9 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         forecastTableView.dataSource = self
         
         self.view.addSubview(forecastTableView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCityNotification(notifiy:)), name: MainViewController.cityUpdateNotification, object: nil)
+        
         getData()
     }
     
@@ -44,10 +48,40 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         forecastTableView.frame = view.bounds
     }
     
+    // notification practice
+    @objc func updateCityNotification(notifiy: Notification) {
+         
+        if let userInfo = notifiy.userInfo,
+           let city = userInfo["city"] as? String {
+            
+            provider.request(.forecast(cityName: city, lang: location)) { result in
+                
+                switch result {
+                case let .success(moyaResponse):
+                    do {
+                        let forecastResponse = try moyaResponse.map(ForecastWeather.self)
+                        //print(forecastResponse)
+                        self.forecast = forecastResponse
+                    } catch {
+                        print(error)
+                    }
+                case let .failure(error):
+                    print(error)
+                }
+                
+                self.forecastTableView.reloadData()
+            }
+        }
+
+    }
+    
+    
     func getData() {
         
-        provider.request(.forecast(cityName: userInput, lang: location)) { result in
-            
+        let city = UserDefaults.standard.string(forKey: "city") ?? ""
+        
+        provider.request(.forecast(cityName: city, lang: location)) { result in
+
             switch result {
             case let .success(moyaResponse):
                 do {
@@ -60,7 +94,7 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
             case let .failure(error):
                 print(error)
             }
-            
+
             self.forecastTableView.reloadData()
         }
     }
@@ -82,7 +116,8 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
             return UITableViewCell()
         }
         let row = forecast?.list[indexPath.row]
-        cell.dateLabel.text = timeToString(row?.dt)
+        let today = Date.init(timeIntervalSince1970: Double(row?.dt ?? 0))
+        cell.dateLabel.text = todayString(today)
 
         let iconStr = row?.weather[0].icon ?? ""
         let urlStr = "http://openweathermap.org/img/wn/\(iconStr)@2x.png"
@@ -101,44 +136,27 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         let temp = row?.main.temp
         cell.tempLabel.text = "🌡 \(String(format: "%.0f", temp as! CVarArg))℃"
         
-//        var humidity = row?.main.humidity
-//        cell.humidLabel.text = "💧 " + String(humidity ?? 0)
-        
         let suffix = row?.weather.first?.icon.suffix(1)
         if suffix == "n" {
-            cell.backgroundColor = UIColor(red: 2/255, green: 2/255, blue: 2/255, alpha: 0.8)
+            cell.backgroundColor = UIColor(red: 2/255, green: 2/255, blue: 2/255, alpha: 0.7)
             cell.tempLabel.textColor = .white
-            //cell.humidLabel.textColor = .white
             cell.dateLabel.textColor = .white
         } else if suffix == "d" {
             cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.8)
             cell.tempLabel.textColor = .black
-            //cell.humidLabel.textColor = .black
             cell.dateLabel.textColor = .black
         }
         
         return cell
     }
     
-    func tempToString(f: Double) -> String {
-        let c = (f - 32) * 5 / 9
-        let tempString = String(format: "%.0f", c)
-        return tempString
-    }
-    
-    func timeToString(_ date: Date?) -> String {
-        guard let inputDate = date else {
-            return ""
-        }
-        let formatter = DateFormatter()
-        let timeZone = forecast?.city.timezone
-        formatter.timeZone = TimeZone(secondsFromGMT: timeZone!)
-        formatter.dateFormat = "MM/dd E h:mm a"
-        return formatter.string(from: inputDate)
-    }
-    
-    func showForecastInfo() {
+    func todayString(_ date: Date, dateFormatter: String = "MM/dd E HH:mm a") -> String {
         
+        let formatter = DateFormatter()
+        formatter.locale = Locale.init(identifier: "en")
+        formatter.dateFormat = dateFormatter
+        let date = formatter.string(from: date)
+        return date
     }
     
     

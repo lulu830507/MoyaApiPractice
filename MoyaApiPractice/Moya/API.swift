@@ -11,7 +11,6 @@ import Moya
 enum WeatherData {
     
     static let apiKey = "2220801afa8cca84ce6313c47c826e1e"
-    static let location = "lang=zh_tw"
     
     case currentWeather(cityName: String, lang: String)
     case forecast(cityName: String, lang: String)

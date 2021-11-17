@@ -16,7 +16,7 @@ struct CurrentWeather: Codable {
     var visibility: Int
     var wind: Wind
     var clouds: Clouds
-    var dt: Date
+    var dt: Int
     var sys: Sys
     var timezone: Int
     var id: Int

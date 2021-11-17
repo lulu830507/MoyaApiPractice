@@ -9,18 +9,26 @@ import UIKit
 import Moya
 import CoreLocation
 
-class MainViewController: UIViewController, CLLocationManagerDelegate {
+class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate {
+    
+    static let cityUpdateNotification = Notification.Name("cityUpdateNotification")
     
     let provider = MoyaProvider<WeatherData>()
     var currentWeather: CurrentWeather?
     let locationManager = CLLocationManager()
-    
     var currentLocation: CLLocation?
+    let gradientLayer = CAGradientLayer()
     
-    var userInput: String = "taipei"
-    var location: String = "zh_tw"
+    var city: String = "Cupertino"
+    var lang: String = "en"
     
     // MARK: Properties
+    var searchBar: UISearchBar = {
+       let searchBar = UISearchBar()
+        
+        return searchBar
+    }()
+    
     lazy var weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -30,17 +38,15 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     var locationButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "location"), for: .normal)
-        button.imageView?.setDimensions(height: 40, width: 40)
+        button.imageView?.setDimensions(height: 35, width: 35)
         button.tintColor = .white
         return button
     }()
     
     var searchButton: UIButton = {
         let button = UIButton(type: .system)
-        var config = UIButton.Configuration.plain()
-        config.background.image = UIImage(systemName: "magnifyingglass")
-        config.background.imageContentMode = .scaleToFill
-        button.configuration = config
+        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.imageView?.setDimensions(height: 35, width: 35)
         button.tintColor = .white
         return button
     }()
@@ -52,10 +58,47 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         return view
     }()
     
+    //info view data
+    
+    var descripLabel: WeatherLabel = {
+        let label = WeatherLabel(text: "", font: 20)
+        return label
+    }()
+    
+    var dateLabel: WeatherLabel = {
+        let label = WeatherLabel(text: "", font: 20)
+        return label
+    }()
+    
+    var timeLabel: WeatherLabel = {
+        let label = WeatherLabel(text: "", font: 20)
+        return label
+    }()
+
+    var cityLabel: WeatherLabel = {
+        let label = WeatherLabel(text: "", font: 20)
+        return label
+    }()
+
+    var tempLabel: WeatherLabel = {
+        let label = WeatherLabel(text: "", font: 40)
+        return label
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getData()
+        setUpLocation()
+        fetchData()
+        searchBar.delegate = self
+        searchBar.isHidden = true
+        searchBar.placeholder = "Please enter a city name."
+        
+        searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
+        //漸層
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -64,15 +107,41 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         configUI()
     }
     
-    func getData() {
+    @objc func didTapSearchButton() {
         
-        provider.request(.currentWeather(cityName: userInput, lang: location)) { result in
+        searchBar.isHidden = false
+        searchBar.bringSubviewToFront(view)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        searchBar.resignFirstResponder()
+        
+        if let userInput = searchBar.text {
+            
+            city = userInput
+            
+            UserDefaults.standard.set(city, forKey: "city")
+            
+            //notification practice
+            NotificationCenter.default.post(name: MainViewController.cityUpdateNotification, object: nil, userInfo: ["city" : userInput])
+            
+            fetchData()
+        }
+        searchBar.isHidden = true
+    }
+    
+    func fetchData() {
+        
+        provider.request(.currentWeather(cityName: city, lang: lang)) { result in
             switch result {
             case let .success(moyaResponse):
                 do {
                     let currentWeatherResponse = try moyaResponse.map(CurrentWeather.self)
-                    print(currentWeatherResponse)
+                   // print(currentWeatherResponse)
                     self.currentWeather = currentWeatherResponse
+                    self.showCurrentWeatherInfo()
+                    self.configUI()
                     self.getWeatherImage()
                 } catch {
                     print(error)
@@ -82,6 +151,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
+    
     
     func getWeatherImage() {
         
@@ -109,7 +179,8 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if locations.isEmpty, currentLocation == nil {
+
+        if !locations.isEmpty, currentLocation == nil {
             currentLocation = locations.first
             locationManager.stopUpdatingLocation()
         }
@@ -117,10 +188,110 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     func configUI() {
         
-        view.backgroundColor = UIColor(red: 81/255, green: 181/255, blue: 227/255, alpha: 1)
+        for view in view.subviews {
+            view.removeFromSuperview()
+        }
         
         view.addSubview(locationButton)
-        locationButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,  left: view.safeAreaLayoutGuide.leftAnchor, paddingTop: 10 ,paddingLeft: 30 , width: 35, height: 35)
+        locationButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,  left: view.safeAreaLayoutGuide.leftAnchor, paddingTop: 10 ,paddingLeft: 30)
+        
+        view.addSubview(searchButton)
+        searchButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 10, paddingRight: -25)
+        
+        view.addSubview(searchBar)
+        searchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 100, paddingLeft: 20, paddingRight: -20, width: 300, height: 40)
+        
+        
+        view.addSubview(weatherImageView)
+        view.insertSubview(weatherImageView, at: 1)
+        weatherImageView.anchor(top: view.safeAreaLayoutGuide.topAnchor ,left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 10, width: 300, height: 300)
+        
+        view.addSubview(infoView)
+        infoView.anchor(top: weatherImageView.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.rightAnchor,paddingTop: -40, paddingLeft: 50, paddingBottom: -20, paddingRight: -50, width: 300, height: 400)
+        
+        view.addSubview(cityLabel)
+        cityLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: locationButton.rightAnchor, paddingTop: 15, paddingLeft: 10)
+        
     }
+    
+    func todayString(_ date: Date, dateFormatter: String = "yyyy / MM / dd") -> String {
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale.init(identifier: "zh_CN")
+        formatter.dateFormat = dateFormatter
+        let date = formatter.string(from: date)
+        return date
+    }
+    
+    func hourToString(_ date: Date, dateFormatter: String = "HH : mm") -> String {
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale.init(identifier: "zh_CN")
+        formatter.dateFormat = dateFormatter
+        let date = formatter.string(from: date)
+        return date
+    }
+    
+    
+    func showCurrentWeatherInfo() {
+        
+        if let weatherDescription = self.currentWeather?.weather.first?.description,
+           let cityName = self.currentWeather?.name,
+           let date = self.currentWeather?.dt,
+           let temp = self.currentWeather?.main.temp,
+           let suffix = self.currentWeather?.weather.first?.icon.suffix(1) {
+            DispatchQueue.main.async { [self] in
+                
+                let today = Date.init(timeIntervalSince1970: Double(date))
+                self.dateLabel.text = todayString(today)
+                infoView.addSubview(dateLabel)
+                dateLabel.centerX(inView: infoView, topAnchor: infoView.topAnchor, paddingTop: 20)
+                
+                
+                self.timeLabel.text = "Now"
+                infoView.addSubview(timeLabel)
+                timeLabel.centerX(inView: infoView, topAnchor: dateLabel.bottomAnchor, paddingTop: 20)
+                
+                self.tempLabel.text = (String(format: "%.0f", temp))+"℃"
+                infoView.addSubview(tempLabel)
+                tempLabel.centerX(inView: infoView, topAnchor: timeLabel.bottomAnchor, paddingTop: 30)
+                
+                self.descripLabel.text = weatherDescription
+                infoView.addSubview(descripLabel)
+                descripLabel.centerX(inView: infoView, topAnchor: tempLabel.bottomAnchor, paddingTop: 20)
+                
+                self.cityLabel.text = cityName
+                
+                if(suffix == "n") {
+                    self.setDarkBlueGradient()
+                } else {
+                    self.setLightBlueGradient()
+                }
+            }
+        }
+    }
+    
+    func setLightBlueGradient() {
+        
+        let topColor = UIColor(red: 71/255, green: 191/255, blue: 223/255, alpha: 1).cgColor
+        let bottomColor = UIColor(red: 74/255, green: 145/255, blue: 255.0/255, alpha: 1).cgColor
+        gradientLayer.frame = view.bounds
+        gradientLayer.startPoint = CGPoint(x: 1, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+        gradientLayer.colors = [topColor, bottomColor]
+    }
+
+    
+    func setDarkBlueGradient() {
+        
+        let topColor = UIColor(red: 19/255, green: 122/255, blue: 217/255, alpha: 1).cgColor
+        let bottomColor = UIColor(red: 1/255, green: 9/255, blue: 21/255, alpha: 1).cgColor
+        gradientLayer.frame = view.bounds
+        gradientLayer.startPoint = CGPoint(x: 1, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+        gradientLayer.colors = [topColor, bottomColor]
+    }
+    
+    
 }
 
