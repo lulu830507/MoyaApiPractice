@@ -304,23 +304,13 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
     }
     
     func todayString(_ date: Date, dateFormatter: String = "yyyy / MM / dd") -> String {
-        
+
         let formatter = DateFormatter()
         formatter.locale = Locale.init(identifier: "zh_CN")
         formatter.dateFormat = dateFormatter
         let date = formatter.string(from: date)
         return date
     }
-    
-    func hourToString(_ date: Date, dateFormatter: String = "HH : mm") -> String {
-        
-        let formatter = DateFormatter()
-        formatter.locale = Locale.init(identifier: "zh_CN")
-        formatter.dateFormat = dateFormatter
-        let date = formatter.string(from: date)
-        return date
-    }
-    
     
     func showCurrentWeatherInfo() {
         
