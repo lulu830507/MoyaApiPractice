@@ -41,6 +41,7 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(updateCityNotification(notifiy:)), name: MainViewController.cityUpdateNotification, object: nil)
         
         getData()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -78,7 +79,7 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
     
     func getData() {
         
-        let city = UserDefaults.standard.string(forKey: "city") ?? ""
+        let city = UserDefaults.standard.string(forKey: "city") ?? "Cupertino"
         
         provider.request(.forecast(cityName: city, lang: location)) { result in
 

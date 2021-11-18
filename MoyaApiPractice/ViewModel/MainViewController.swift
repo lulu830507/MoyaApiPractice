@@ -85,6 +85,93 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         return label
     }()
     
+    let personImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(systemName: "person")
+        image.tintColor = .white
+        image.backgroundColor = .clear
+        image.setDimensions(height: 30, width: 30)
+        return image
+    }()
+    
+    var temp2Label: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.tintColor = .white
+        label.text = ""
+        label.font = UIFont(name: "Menlo", size: 22)
+        label.textColor = .white
+        return label
+    }()
+    
+    var verticalBar: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.tintColor = .white
+        label.text = "|"
+        label.font = UIFont(name: "Menlo", size: 25)
+        label.textColor = .white
+        return label
+    }()
+    
+    let speedImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(systemName: "wind")
+        image.tintColor = .white
+        image.backgroundColor = .clear
+        image.setDimensions(height: 30, width: 30)
+        return image
+    }()
+    
+    var speedLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.tintColor = .white
+        label.text = ""
+        label.font = UIFont(name: "Menlo", size: 20)
+        label.textColor = .white
+        return label
+    }()
+    
+    var verticalBar2: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.tintColor = .white
+        label.text = "|"
+        label.font = UIFont(name: "Menlo", size: 25)
+        label.textColor = .white
+        return label
+    }()
+    
+    let humidImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(systemName: "drop")
+        image.tintColor = .white
+        image.backgroundColor = .clear
+        image.setDimensions(height: 30, width: 25)
+        return image
+    }()
+    
+    var humidLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.tintColor = .white
+        label.text = ""
+        label.font = UIFont(name: "Menlo", size: 20)
+        label.textColor = .white
+        return label
+    }()
+    
+    var verticalBar3: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.tintColor = .white
+        label.text = "|"
+        label.font = UIFont(name: "Menlo", size: 25)
+        label.textColor = .white
+        return label
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,6 +185,8 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
         //漸層
         self.view.layer.insertSublayer(gradientLayer, at: 0)
+        
+        UserDefaults.standard.removeObject(forKey: "city")
         
     }
     
@@ -239,7 +328,9 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
            let cityName = self.currentWeather?.name,
            let date = self.currentWeather?.dt,
            let temp = self.currentWeather?.main.temp,
-           let suffix = self.currentWeather?.weather.first?.icon.suffix(1) {
+           let suffix = self.currentWeather?.weather.first?.icon.suffix(1),
+           let humidity = self.currentWeather?.main.humidity,
+           let speed = self.currentWeather?.wind.speed {
             DispatchQueue.main.async { [self] in
                 
                 let today = Date.init(timeIntervalSince1970: Double(date))
@@ -267,6 +358,30 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                 } else {
                     self.setLightBlueGradient()
                 }
+                
+                infoView.addSubview(personImage)
+                personImage.anchor(top: descripLabel.bottomAnchor, left: infoView.leftAnchor, paddingTop: 38, paddingLeft: 55, width: 30, height: 30)
+                infoView.addSubview(verticalBar)
+                verticalBar.centerX(inView: infoView, topAnchor: descripLabel.bottomAnchor, paddingTop: 37)
+                self.temp2Label.text = (String(format: "%.0f", temp))+"℃"
+                infoView.addSubview(temp2Label)
+                temp2Label.anchor(top: descripLabel.bottomAnchor, right: infoView.rightAnchor, paddingTop: 42, paddingRight: -40)
+                
+                infoView.addSubview(humidImage)
+                humidImage.anchor(top: personImage.bottomAnchor, left: infoView.leftAnchor, paddingTop: 25, paddingLeft: 55, width: 25, height: 30)
+                infoView.addSubview(verticalBar2)
+                verticalBar2.centerX(inView: infoView, topAnchor: verticalBar.bottomAnchor, paddingTop: 25)
+                self.humidLabel.text = String(humidity) + " %"
+                infoView.addSubview(humidLabel)
+                humidLabel.anchor(top: temp2Label.bottomAnchor, right: infoView.rightAnchor, paddingTop: 30, paddingRight: -40)
+                
+                infoView.addSubview(speedImage)
+                speedImage.anchor(top: humidImage.bottomAnchor, left: infoView.leftAnchor, paddingTop: 25, paddingLeft: 55, width: 30, height: 30)
+                infoView.addSubview(verticalBar3)
+                verticalBar3.centerX(inView: infoView, topAnchor: verticalBar2.bottomAnchor, paddingTop: 25)
+                self.speedLabel.text = String(speed) + "km/h"
+                infoView.addSubview(speedLabel)
+                speedLabel.anchor(top: humidLabel.bottomAnchor, right: infoView.rightAnchor, paddingTop: 30, paddingRight: -35)
             }
         }
     }
