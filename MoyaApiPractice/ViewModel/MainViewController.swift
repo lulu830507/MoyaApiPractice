@@ -172,6 +172,14 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         return label
     }()
     
+    var moreButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("MORE", for: .normal)
+        button.tintColor = .white
+        button.setDimensions(height: 20, width: 50)
+        return button
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -188,6 +196,8 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         
         UserDefaults.standard.removeObject(forKey: "city")
         
+        moreButton.addTarget(self, action: #selector(nextPageButton), for: .touchUpInside)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -200,6 +210,13 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         
         searchBar.isHidden = false
         searchBar.bringSubviewToFront(view)
+    }
+    
+    @objc func nextPageButton() {
+        let nextPage = ForecastViewController()
+        let navigationVC = UINavigationController(rootViewController: nextPage)
+        navigationVC.modalPresentationStyle = .fullScreen
+        self.present(navigationVC, animated: true, completion: nil)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -331,15 +348,15 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                 
                 self.timeLabel.text = "Now"
                 infoView.addSubview(timeLabel)
-                timeLabel.centerX(inView: infoView, topAnchor: dateLabel.bottomAnchor, paddingTop: 20)
+                timeLabel.centerX(inView: infoView, topAnchor: dateLabel.bottomAnchor, paddingTop: 15)
                 
                 self.tempLabel.text = (String(format: "%.0f", temp))+"℃"
                 infoView.addSubview(tempLabel)
-                tempLabel.centerX(inView: infoView, topAnchor: timeLabel.bottomAnchor, paddingTop: 30)
+                tempLabel.centerX(inView: infoView, topAnchor: timeLabel.bottomAnchor, paddingTop: 20)
                 
                 self.descripLabel.text = weatherDescription
                 infoView.addSubview(descripLabel)
-                descripLabel.centerX(inView: infoView, topAnchor: tempLabel.bottomAnchor, paddingTop: 20)
+                descripLabel.centerX(inView: infoView, topAnchor: tempLabel.bottomAnchor, paddingTop: 15)
                 
                 self.cityLabel.text = cityName
                 
@@ -350,28 +367,31 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                 }
                 
                 infoView.addSubview(personImage)
-                personImage.anchor(top: descripLabel.bottomAnchor, left: infoView.leftAnchor, paddingTop: 38, paddingLeft: 55, width: 30, height: 30)
+                personImage.anchor(top: descripLabel.bottomAnchor, left: infoView.leftAnchor, paddingTop: 33, paddingLeft: 55, width: 30, height: 30)
                 infoView.addSubview(verticalBar)
-                verticalBar.centerX(inView: infoView, topAnchor: descripLabel.bottomAnchor, paddingTop: 37)
+                verticalBar.centerX(inView: infoView, topAnchor: descripLabel.bottomAnchor, paddingTop: 32)
                 self.temp2Label.text = (String(format: "%.0f", temp))+"℃"
                 infoView.addSubview(temp2Label)
-                temp2Label.anchor(top: descripLabel.bottomAnchor, right: infoView.rightAnchor, paddingTop: 42, paddingRight: -40)
+                temp2Label.anchor(top: descripLabel.bottomAnchor, right: infoView.rightAnchor, paddingTop: 37, paddingRight: -40)
                 
                 infoView.addSubview(humidImage)
-                humidImage.anchor(top: personImage.bottomAnchor, left: infoView.leftAnchor, paddingTop: 25, paddingLeft: 55, width: 25, height: 30)
+                humidImage.anchor(top: personImage.bottomAnchor, left: infoView.leftAnchor, paddingTop: 20, paddingLeft: 55, width: 25, height: 30)
                 infoView.addSubview(verticalBar2)
-                verticalBar2.centerX(inView: infoView, topAnchor: verticalBar.bottomAnchor, paddingTop: 25)
+                verticalBar2.centerX(inView: infoView, topAnchor: verticalBar.bottomAnchor, paddingTop: 20)
                 self.humidLabel.text = String(humidity) + " %"
                 infoView.addSubview(humidLabel)
-                humidLabel.anchor(top: temp2Label.bottomAnchor, right: infoView.rightAnchor, paddingTop: 30, paddingRight: -40)
+                humidLabel.anchor(top: temp2Label.bottomAnchor, right: infoView.rightAnchor, paddingTop: 25, paddingRight: -40)
                 
                 infoView.addSubview(speedImage)
-                speedImage.anchor(top: humidImage.bottomAnchor, left: infoView.leftAnchor, paddingTop: 25, paddingLeft: 55, width: 30, height: 30)
+                speedImage.anchor(top: humidImage.bottomAnchor, left: infoView.leftAnchor, paddingTop: 20, paddingLeft: 55, width: 30, height: 30)
                 infoView.addSubview(verticalBar3)
-                verticalBar3.centerX(inView: infoView, topAnchor: verticalBar2.bottomAnchor, paddingTop: 25)
+                verticalBar3.centerX(inView: infoView, topAnchor: verticalBar2.bottomAnchor, paddingTop: 20)
                 self.speedLabel.text = String(speed) + "km/h"
                 infoView.addSubview(speedLabel)
-                speedLabel.anchor(top: humidLabel.bottomAnchor, right: infoView.rightAnchor, paddingTop: 30, paddingRight: -35)
+                speedLabel.anchor(top: humidLabel.bottomAnchor, right: infoView.rightAnchor, paddingTop: 25, paddingRight: -35)
+                
+                infoView.addSubview(moreButton)
+                moreButton.centerX(inView: infoView, topAnchor: verticalBar3.bottomAnchor, paddingTop: 30)
             }
         }
     }

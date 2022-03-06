@@ -25,6 +25,8 @@
 		F07D517A27326B1F0064247B /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07D517927326B1F0064247B /* ForecastViewController.swift */; };
 		F07D517C273272370064247B /* ForecastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07D517B273272370064247B /* ForecastModel.swift */; };
 		F07D517E2733874E0064247B /* ForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07D517D2733874E0064247B /* ForecastTableViewCell.swift */; };
+		F09E5D9427D331D30039D8B4 /* Remider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5D9327D331D30039D8B4 /* Remider.swift */; };
+		F09E5D9627D332790039D8B4 /* ReminderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5D9527D332790039D8B4 /* ReminderListViewController.swift */; };
 		F4D89A610CD4C9D4EB08DCBB /* Pods_MoyaApiPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 746445BF5C69DDA21B3ED3D0 /* Pods_MoyaApiPractice.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +76,8 @@
 		F07D517927326B1F0064247B /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		F07D517B273272370064247B /* ForecastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastModel.swift; sourceTree = "<group>"; };
 		F07D517D2733874E0064247B /* ForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTableViewCell.swift; sourceTree = "<group>"; };
+		F09E5D9327D331D30039D8B4 /* Remider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Remider.swift; path = MoyaApiPractice/Model/Remider.swift; sourceTree = SOURCE_ROOT; };
+		F09E5D9527D332790039D8B4 /* ReminderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReminderListViewController.swift; path = MoyaApiPractice/ViewModel/ReminderListViewController.swift; sourceTree = SOURCE_ROOT; };
 		FC9E7E2421C1597D52A5A919 /* Pods-MoyaApiPractice-MoyaApiPracticeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoyaApiPractice-MoyaApiPracticeUITests.release.xcconfig"; path = "Target Support Files/Pods-MoyaApiPractice-MoyaApiPracticeUITests/Pods-MoyaApiPractice-MoyaApiPracticeUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -196,6 +200,8 @@
 		F07D517227321FA30064247B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F09E5D9327D331D30039D8B4 /* Remider.swift */,
+				F09E5D9527D332790039D8B4 /* ReminderListViewController.swift */,
 				F07D517327321FC70064247B /* CurrentWeatherModel.swift */,
 				F07D517B273272370064247B /* ForecastModel.swift */,
 			);
@@ -466,6 +472,8 @@
 				F07D517127321F920064247B /* API.swift in Sources */,
 				F07D517827326ABF0064247B /* TabBarViewController.swift in Sources */,
 				F05BBBE9273E22D30069D7AD /* ExtensionView.swift in Sources */,
+				F09E5D9427D331D30039D8B4 /* Remider.swift in Sources */,
+				F09E5D9627D332790039D8B4 /* ReminderListViewController.swift in Sources */,
 				F07D517E2733874E0064247B /* ForecastTableViewCell.swift in Sources */,
 				F07D517C273272370064247B /* ForecastModel.swift in Sources */,
 				F07D514227321E850064247B /* SceneDelegate.swift in Sources */,

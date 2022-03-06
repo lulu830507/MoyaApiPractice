@@ -23,11 +23,20 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         
         tableView.backgroundColor = UIColor(red: 81/255, green: 181/255, blue: 227/255, alpha: 1)
         //tableView.separatorStyle = .none
+        // 是否顯示滑動條
         tableView.showsVerticalScrollIndicator = false
         
         tableView.register(ForecastTableViewCell.self, forCellReuseIdentifier: ForecastTableViewCell.identifier)
         
         return tableView
+    }()
+    
+    var backButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "arrow.backward.circle.fill"), for: .normal)
+        button.imageView?.setDimensions(height: 35, width: 40)
+        button.tintColor = .white
+        return button
     }()
     
     override func viewDidLoad() {
@@ -38,9 +47,14 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         
         self.view.addSubview(forecastTableView)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCityNotification(notifiy:)), name: MainViewController.cityUpdateNotification, object: nil)
-        
         getData()
+        
+        // navigation button
+        setNavigation()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         
     }
     
@@ -49,9 +63,30 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         forecastTableView.frame = view.bounds
     }
     
+    //navigation
+    @objc func didTapButton() {
+        let rootVC = MainViewController()
+        let navigationVC = UINavigationController(rootViewController: rootVC)
+        navigationVC.modalPresentationStyle = .fullScreen
+        dismiss(animated: false)
+    }
+    
+    func setNavigation() {
+        let barAppearance = UINavigationBarAppearance()
+        barAppearance.configureWithDefaultBackground()
+        barAppearance.titleTextAttributes = [
+           .foregroundColor: UIColor.black,
+           .font: UIFont(name: "Menlo", size: 30)!
+        ]
+        UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
+        self.navigationItem.title = "Forecast"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward.circle.fill"), style: .plain, target: self, action: #selector(didTapButton))
+        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.black
+    }
+    
     // notification practice
     @objc func updateCityNotification(notifiy: Notification) {
-         
+        
         if let userInfo = notifiy.userInfo,
            let city = userInfo["city"] as? String {
             
@@ -73,7 +108,7 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
                 self.forecastTableView.reloadData()
             }
         }
-
+        
     }
     
     
@@ -82,7 +117,7 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         let city = UserDefaults.standard.string(forKey: "city") ?? "Cupertino"
         
         provider.request(.forecast(cityName: city, lang: location)) { result in
-
+            
             switch result {
             case let .success(moyaResponse):
                 do {
@@ -95,7 +130,7 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
             case let .failure(error):
                 print(error)
             }
-
+            
             self.forecastTableView.reloadData()
         }
     }
@@ -119,7 +154,7 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         let row = forecast?.list[indexPath.row]
         let today = Date.init(timeIntervalSince1970: Double(row?.dt ?? 0))
         cell.dateLabel.text = todayString(today)
-
+        
         let iconStr = row?.weather[0].icon ?? ""
         let urlStr = "http://openweathermap.org/img/wn/\(iconStr)@2x.png"
         if let url = URL(string: urlStr) {

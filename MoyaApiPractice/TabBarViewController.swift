@@ -21,19 +21,23 @@ class TabBarViewController: UITabBarController {
         tabBar.scrollEdgeAppearance = tabBar.standardAppearance
         
         let mainVC = MainViewController()
-        let forecastVC = ForecastViewController()
+       // let forecastVC = ForecastViewController()
+        let reminderVC = ReminderListViewController()
         
         mainVC.tabBarItem.image = UIImage(systemName: "cloud.sun.fill")
-        forecastVC.tabBarItem.image = UIImage(systemName: "thermometer.sun.fill")
+       // forecastVC.tabBarItem.image = UIImage(systemName: "thermometer.sun.fill")
+        reminderVC.tabBarItem.image = UIImage(systemName: "list.bullet.circle.fill")
         
         mainVC.title = "CurrentWeather"
-        forecastVC.title = "Forecast"
+       // forecastVC.title = "Forecast"
+        reminderVC.title = "Reminder"
         
         self.tabBar.barTintColor = .clear
         self.tabBar.tintColor = .white
         self.tabBar.backgroundColor = .clear
         
-        setViewControllers([mainVC, forecastVC], animated: false)
+        // 將ViewController依序加進TabbarController內
+        setViewControllers([mainVC, reminderVC], animated: false)
     }
     
 
