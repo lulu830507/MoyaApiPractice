@@ -76,12 +76,13 @@ class ForecastViewController: UIViewController, UITableViewDelegate, UITableView
         barAppearance.configureWithDefaultBackground()
         barAppearance.titleTextAttributes = [
            .foregroundColor: UIColor.black,
-           .font: UIFont(name: "Menlo", size: 30)!
+           .font: UIFont(name: "Menlo", size: 27)!
         ]
-        UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
         self.navigationItem.title = "Forecast"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward.circle.fill"), style: .plain, target: self, action: #selector(didTapButton))
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.black
+        UINavigationBar.appearance().standardAppearance = barAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
     }
     
     // notification practice
