@@ -9,7 +9,6 @@ import UIKit
 
 class ReminderListViewController: UITableViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
-    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         selectedIndex = viewController.view.tag
         segmentControl.selectedSegmentIndex = selectedIndex
@@ -30,7 +29,7 @@ class ReminderListViewController: UITableViewController, UIPageViewControllerDel
         return viewControllerArr[pageIndex]
     }
     
-    
+    var containerView = UIView() // 測試commit
     var segmentControl = UISegmentedControl()
     var pageViewControl = UIPageViewController()
     var viewControllerArr = Array<UIViewController>()
