@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import Moya
 
-class ReminderListViewController: UITableViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+class ReminderListViewController: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         selectedIndex = viewController.view.tag
@@ -23,7 +24,7 @@ class ReminderListViewController: UITableViewController, UIPageViewControllerDel
         selectedIndex = viewController.view.tag
         segmentControl.selectedSegmentIndex = selectedIndex
         let pageIndex = viewController.view.tag + 1
-        if pageIndex > 1 {
+        if pageIndex > 2 {
             return nil
         }
         return viewControllerArr[pageIndex]
@@ -37,8 +38,8 @@ class ReminderListViewController: UITableViewController, UIPageViewControllerDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = UIColor.black
+        
+        view.backgroundColor = UIColor.clear
         initSegmentControl()
         setPageViewControl()
         controlArray()
@@ -62,7 +63,7 @@ class ReminderListViewController: UITableViewController, UIPageViewControllerDel
     
     func setPageViewControl() {
         pageViewControl = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        pageViewControl.view.frame = CGRect.init(x: 0, y: 80, width: Int(self.view.frame.width), height: Int(self.view.frame.height))
+        pageViewControl.view.frame = CGRect.init(x: 0, y: 80, width: Int(self.view.frame.width), height: Int(self.view.frame.height - 300))
         pageViewControl.delegate = self
         pageViewControl.dataSource = self
         self.addChild(pageViewControl)
@@ -73,12 +74,15 @@ class ReminderListViewController: UITableViewController, UIPageViewControllerDel
         let viewController1 = UIViewController()
         viewController1.view.backgroundColor = UIColor.red
         viewController1.view.tag = 0
+        viewController1.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         let viewController2 = UIViewController()
         viewController2.view.backgroundColor = UIColor.yellow
         viewController2.view.tag = 1
+        viewController2.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         let viewController3 = UIViewController()
         viewController3.view.backgroundColor = UIColor.green
         viewController3.view.tag = 2
+        viewController3.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         
         viewControllerArr.append(viewController1)
         viewControllerArr.append(viewController2)
@@ -86,15 +90,16 @@ class ReminderListViewController: UITableViewController, UIPageViewControllerDel
         
         pageViewControl.setViewControllers([viewControllerArr[0]], direction: .forward, animated: false, completion: nil)
     }
-
+    
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
