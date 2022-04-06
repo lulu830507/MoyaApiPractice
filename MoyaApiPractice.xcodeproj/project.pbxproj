@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4D018A3E7936819A6C892B3D /* Pods_MoyaApiPractice_MoyaApiPracticeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898300F3D6D0BDDC9BDCF474 /* Pods_MoyaApiPractice_MoyaApiPracticeUITests.framework */; };
 		97CBC68A54D926AC2A89DEE2 /* Pods_MoyaApiPracticeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EF59BBDC50B2BE8DCCA440 /* Pods_MoyaApiPracticeTests.framework */; };
+		F051A83027FA99D400D4B02E /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051A82F27FA99D400D4B02E /* Reminder.swift */; };
+		F051A83227FD6B3700D4B02E /* ReminderListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051A83127FD6B3700D4B02E /* ReminderListData.swift */; };
 		F05BBBE7273D1CDB0069D7AD /* WeatherLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BBBE6273D1CDB0069D7AD /* WeatherLabel.swift */; };
 		F05BBBE9273E22D30069D7AD /* ExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BBBE8273E22D30069D7AD /* ExtensionView.swift */; };
 		F07D514027321E850064247B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07D513F27321E850064247B /* AppDelegate.swift */; };
@@ -56,6 +58,8 @@
 		C705382EE9DFE334F142E349 /* Pods-MoyaApiPracticeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoyaApiPracticeTests.release.xcconfig"; path = "Target Support Files/Pods-MoyaApiPracticeTests/Pods-MoyaApiPracticeTests.release.xcconfig"; sourceTree = "<group>"; };
 		CC509D458AC6C17DD121441B /* Pods-MoyaApiPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoyaApiPractice.release.xcconfig"; path = "Target Support Files/Pods-MoyaApiPractice/Pods-MoyaApiPractice.release.xcconfig"; sourceTree = "<group>"; };
 		D672A9BFFC46E293DE50CD8F /* Pods-MoyaApiPractice-MoyaApiPracticeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoyaApiPractice-MoyaApiPracticeUITests.debug.xcconfig"; path = "Target Support Files/Pods-MoyaApiPractice-MoyaApiPracticeUITests/Pods-MoyaApiPractice-MoyaApiPracticeUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F051A82F27FA99D400D4B02E /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
+		F051A83127FD6B3700D4B02E /* ReminderListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListData.swift; sourceTree = "<group>"; };
 		F05BBBE6273D1CDB0069D7AD /* WeatherLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherLabel.swift; sourceTree = "<group>"; };
 		F05BBBE8273E22D30069D7AD /* ExtensionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionView.swift; sourceTree = "<group>"; };
 		F07D513C27321E850064247B /* MoyaApiPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoyaApiPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,9 +205,10 @@
 			isa = PBXGroup;
 			children = (
 				F09E5D9327D331D30039D8B4 /* Remider.swift */,
-				F09E5D9527D332790039D8B4 /* ReminderListViewController.swift */,
+				F051A82F27FA99D400D4B02E /* Reminder.swift */,
 				F07D517327321FC70064247B /* CurrentWeatherModel.swift */,
 				F07D517B273272370064247B /* ForecastModel.swift */,
+				F051A83127FD6B3700D4B02E /* ReminderListData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 			children = (
 				F07D514327321E850064247B /* MainViewController.swift */,
 				F07D517927326B1F0064247B /* ForecastViewController.swift */,
+				F09E5D9527D332790039D8B4 /* ReminderListViewController.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -465,6 +471,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F07D514427321E850064247B /* MainViewController.swift in Sources */,
+				F051A83027FA99D400D4B02E /* Reminder.swift in Sources */,
 				F05BBBE7273D1CDB0069D7AD /* WeatherLabel.swift in Sources */,
 				F07D517A27326B1F0064247B /* ForecastViewController.swift in Sources */,
 				F07D514027321E850064247B /* AppDelegate.swift in Sources */,
@@ -474,6 +481,7 @@
 				F05BBBE9273E22D30069D7AD /* ExtensionView.swift in Sources */,
 				F09E5D9427D331D30039D8B4 /* Remider.swift in Sources */,
 				F09E5D9627D332790039D8B4 /* ReminderListViewController.swift in Sources */,
+				F051A83227FD6B3700D4B02E /* ReminderListData.swift in Sources */,
 				F07D517E2733874E0064247B /* ForecastTableViewCell.swift in Sources */,
 				F07D517C273272370064247B /* ForecastModel.swift in Sources */,
 				F07D514227321E850064247B /* SceneDelegate.swift in Sources */,

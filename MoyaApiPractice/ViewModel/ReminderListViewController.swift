@@ -10,6 +10,7 @@ import Moya
 
 class ReminderListViewController: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
+    // page view
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         selectedIndex = viewController.view.tag
         segmentControl.selectedSegmentIndex = selectedIndex
@@ -30,11 +31,12 @@ class ReminderListViewController: UIViewController, UIPageViewControllerDelegate
         return viewControllerArr[pageIndex]
     }
     
-    var containerView = UIView() // 測試commit
     var segmentControl = UISegmentedControl()
     var pageViewControl = UIPageViewController()
     var viewControllerArr = Array<UIViewController>()
     var selectedIndex: Int = 0
+    var tableView = UITableView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +45,7 @@ class ReminderListViewController: UIViewController, UIPageViewControllerDelegate
         initSegmentControl()
         setPageViewControl()
         controlArray()
+        setTableView()
     }
     
     func initSegmentControl() {
@@ -63,7 +66,7 @@ class ReminderListViewController: UIViewController, UIPageViewControllerDelegate
     
     func setPageViewControl() {
         pageViewControl = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        pageViewControl.view.frame = CGRect.init(x: 0, y: 80, width: Int(self.view.frame.width), height: Int(self.view.frame.height - 300))
+        pageViewControl.view.frame = CGRect.init(x: 0, y: 80, width: Int(self.view.frame.width), height: Int(self.view.frame.height / 2))
         pageViewControl.delegate = self
         pageViewControl.dataSource = self
         self.addChild(pageViewControl)
@@ -89,6 +92,12 @@ class ReminderListViewController: UIViewController, UIPageViewControllerDelegate
         viewControllerArr.append(viewController3)
         
         pageViewControl.setViewControllers([viewControllerArr[0]], direction: .forward, animated: false, completion: nil)
+    }
+    
+    func setTableView() {
+        tableView.frame = CGRect(x: 0, y: view.frame.height - view.frame.height / 2 + 80, width: view.frame.width, height: view.frame.height / 2 - 80)
+        tableView.backgroundColor = UIColor.purple
+        self.view.addSubview(tableView)
     }
     
     
