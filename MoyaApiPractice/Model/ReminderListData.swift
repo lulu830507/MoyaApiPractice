@@ -13,4 +13,6 @@ class ReminderListData: NSObject {
     typealias completedAction = (Int) -> Void
     typealias deletedAction = () -> Void
     typealias chahgedAction = () -> Void
+    
+    
 }
